@@ -23,7 +23,8 @@ public class FileReader
         try
         {
           Student student = (Student) read.readObject();
-          temp.add(student);
+          if (student != null)
+            temp.add(student);
         }
         catch (EOFException e)
         {
@@ -51,7 +52,8 @@ public class FileReader
     {
       for (Student student : students)
       {
-        write.writeObject(student);
+        if (student != null)
+          write.writeObject(student);
       }
     }
   }

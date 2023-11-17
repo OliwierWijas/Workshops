@@ -21,11 +21,18 @@ public class StudentList implements Serializable
     students = fileReader.readStudents();
     size = students.length;
 
-    if (students.length >= size)
+    int tempsize = 0;
+    for (int i = 0; i < students.length; i++)
     {
-      doubleTheListCapacity();
+      if (students[i] != null)
+        tempsize++;
+      else
+        break;
     }
-    this.students[size] = student;
+
+    doubleTheListCapacity();
+
+    this.students[tempsize] = student;
     fileReader.writeStudents(students);
   }
 
@@ -38,14 +45,17 @@ public class StudentList implements Serializable
     {
       if (students[i] != null && students[i].equals(student))
       {
-        for (int j = i; j < students.length - 1; j++)
+        for (int j = i; j < students.length - 2; j++)
         {
           students[j] = students[j+1];
         }
         students[size-1] = null;
       }
-      break;
+      else if (students[i] == null)
+        break;
     }
+
+    size--;
     fileReader.writeStudents(students);
   }
 
@@ -96,8 +106,8 @@ public class StudentList implements Serializable
     }
     else
     {
+      Student[] temp = students.clone();
       this.size = 2*size;
-      Student[] temp = students;
       students = new Student[size];
       for (int i = 0; i < temp.length; i++)
       {
